@@ -1,13 +1,18 @@
 <template>
-<div><a>Labels</a></div>
+  <div>
+    Labels
+    <Nav/>
+  </div>
 </template>
 
-<script>
+<script lang="ts">
+
 export default {
-  name: "Labels"
-}
+  name: 'Labels',
+
+};
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 </style>
