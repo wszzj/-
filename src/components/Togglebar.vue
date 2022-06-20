@@ -19,7 +19,7 @@
 
 
 export default {
-  name: 'nav',
+  name: 'togglebar',
 
 };
 </script>
@@ -33,6 +33,7 @@ nav {
 
   flex-direction: row;
   font-size: 12px;
+
   > .item {
     padding: 2px 0;
     width: 33.33333%;
@@ -40,13 +41,14 @@ nav {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+
     .icon {
       width: 32px;
       height: 32px;
-
     }
   }
-  > .item.selected{
+
+  > .item.selected {
     color: $color-highlight;
   }
 }
