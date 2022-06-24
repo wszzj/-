@@ -13,7 +13,7 @@
       <button @click="inputContent">7</button>
       <button @click="inputContent">8</button>
       <button @click="inputContent">9</button>
-      <button class="ok">=</button>
+      <button class="ok" @click="ok">=</button>
       <button @click="inputContent" class="zero">0</button>
       <button @click="inputContent">.</button>
     </div>
@@ -57,6 +57,9 @@ export default class keyPad extends Vue {
       this.output = this.output.slice(0, -1);
     }
   }
+  ok(){
+    this.$emit('update:value',this.output)
+  }
 }
 </script>
 
@@ -73,7 +76,6 @@ export default class keyPad extends Vue {
     font-family: Consolas, monospace;
     text-align: right;
     padding: 8px 16px;
-
   }
 
   > .buttons {

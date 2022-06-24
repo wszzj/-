@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
+import {Component, Watch} from 'vue-property-decorator';
 @Component
 export default class toggle extends Vue {
   sign = '-';
@@ -18,6 +18,10 @@ export default class toggle extends Vue {
       throw new Error('sign is unknown');
     }
     this.sign = sign;
+  }
+  @Watch('sign')
+  onSignChanged(sign:string){
+    this.$emit('update:value',sign)
   }
 }
 </script>
