@@ -9,18 +9,16 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component, Watch} from 'vue-property-decorator';
+import {Component, Prop, Watch} from 'vue-property-decorator';
+
 @Component
-export default class toggle extends Vue {
-  sign = '-';
-  selectType(sign:string) {
+export default class Toggle extends Vue {
+  @Prop() readonly sign!: string;
+
+  selectType(sign: string) {
     if (sign !== '-' && sign !== '+') {
       throw new Error('sign is unknown');
     }
-    this.sign = sign;
-  }
-  @Watch('sign')
-  onSignChanged(sign:string){
     this.$emit('update:value',sign)
   }
 }

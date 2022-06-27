@@ -19,7 +19,11 @@ export default {
   flex-direction: column;
   height: 100vh;
 }
+.layout-content {
+  display: flex;
+  flex-direction: column-reverse;
 
+}
 .content {
   overflow: auto;
   flex-grow: 1;

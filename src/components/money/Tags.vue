@@ -17,7 +17,7 @@ import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
 
 @Component
-export default class tags extends Vue {
+export default class Tags extends Vue {
   @Prop(Array) readonly dataSource: string[] | undefined;
   selectTags: string[] = [];
 
@@ -59,7 +59,7 @@ export default class tags extends Vue {
       $h: 24px;
       height: $h;
       line-height: $h;
-      border-radius: $h/2;
+      border-radius: 12px;
       padding: 0 16px;
       margin-right: 12px;
       margin-top: 8px;

@@ -25,7 +25,7 @@ import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 
 @Component
-export default class keyPad extends Vue {
+export default class KeyPad extends Vue {
   output = '0';
 
   inputContent(event: MouseEvent) {
