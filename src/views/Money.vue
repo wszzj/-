@@ -1,10 +1,10 @@
 <template>
   <Layout class-prefix="layout">
-    {{ record }}
-    <key-pad @update:value="onUpdateAmount"/>
+    {{record}}
+    <key-pad :value.sync="record.amount"/>
     <toggle :value.sync="record.toggle"/>
-    <notes @update:value="onUpdateNotes"/>
-    <tags :data-source.sync='tags' @update:value="onUpdateTags"/>
+    <notes :value.sync="record.notes"/>
+    <tags :data-source.sync='tags' :value.sync="record.tags"/>
   </Layout>
 </template>
 
@@ -30,19 +30,11 @@ type Recode = {
 export default class Money extends Vue {
   tags: string[] = ['衣', '食', '住', '行'];
   record: Recode = {
-    tags: [], notes: '123', toggle: '-', amount: 0
+    tags: [], notes: '', toggle: '-', amount: 0
   };
 
   onUpdateTags(value: string[]) {
     return this.record.tags = value;
-  }
-
-  onUpdateNotes(value: string) {
-    return this.record.notes = value;
-  }
-
-  onUpdateAmount(value: string) {
-    return this.record.amount = parseFloat(value);
   }
 }
 

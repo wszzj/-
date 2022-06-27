@@ -1,25 +1,25 @@
 <template>
   <div>
     <ol class="toggle">
-      <li :class="sign==='-' && 'selected'" @click="selectType('-')">支出</li>
-      <li :class="sign==='+' && 'selected'" @click="selectType('+')">收入</li>
+      <li :class="value==='-' && 'selected'" @click="selectType('-')">支出</li>
+      <li :class="value==='+' && 'selected'" @click="selectType('+')">收入</li>
     </ol>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component, Prop, Watch} from 'vue-property-decorator';
+import {Component, Prop} from 'vue-property-decorator';
 
 @Component
 export default class Toggle extends Vue {
-  @Prop() readonly sign!: string;
+  @Prop() readonly value!: string;
 
   selectType(sign: string) {
     if (sign !== '-' && sign !== '+') {
       throw new Error('sign is unknown');
     }
-    this.$emit('update:value',sign)
+    return this.$emit('update:value', sign);
   }
 }
 </script>
