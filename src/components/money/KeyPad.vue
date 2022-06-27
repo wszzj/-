@@ -26,7 +26,7 @@ import {Component, Prop} from 'vue-property-decorator';
 
 @Component
 export default class KeyPad extends Vue {
-  @Prop() readonly value!:number;
+  @Prop() readonly value!: number;
   output = this.value.toString();
 
   inputContent(event: MouseEvent) {
@@ -41,7 +41,7 @@ export default class KeyPad extends Vue {
       }
       return;
     }
-    if (this.output.indexOf('.')>=0 && input === '.') {
+    if (this.output.indexOf('.') >= 0 && input === '.') {
       return;
     }
     this.output += input;
@@ -58,8 +58,11 @@ export default class KeyPad extends Vue {
       this.output = this.output.slice(0, -1);
     }
   }
-  ok(){
-    this.$emit('update:value',this.output)
+
+  ok() {
+    this.$emit('update:value', this.output);
+    this.$emit('submit', this.output);
+    this.output = '0';
   }
 }
 </script>
