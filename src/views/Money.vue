@@ -1,6 +1,5 @@
 <template>
   <Layout class-prefix="layout">
-    {{ recordList }}
     <key-pad :value.sync="record.amount" @submit='saveRecord'/>
     <toggle :value.sync="record.toggle"/>
     <notes :value.sync="record.notes"/>
@@ -16,34 +15,32 @@ import Toggle from '@/components/money/Toggle.vue';
 import Remark from '@/components/money/Notes.vue';
 import Tags from '@/components/money/Tags.vue';
 import Notes from '@/components/money/Notes.vue';
+import {model} from '@/model';
 
+const version = window.localStorage.getItem('version') || '0.0.0';
+const recordList = model.fetch();
 
-type Record = {
-  tags: string[]
-  notes: string
-  toggle: string
-  amount: number
-  createdTime: Date | undefined
-}
+window.localStorage.setItem('version', '0.0.1');
+
 @Component({
   components: {Notes, Tags, Toggle, KeyPad}
 })
 export default class Money extends Vue {
-  tags: string[] = ['衣', '食', '住', '行'];
-  recordList: Record[] = JSON.parse(window.localStorage.getItem('recordList') || '[]');
-  record: Record = {
+  tags = ['衣', '食', '住', '行'];
+  recordList = recordList;
+  record: RecordItem = {
     tags: [], notes: '', toggle: '-', amount: 0, createdTime: undefined
   };
 
   saveRecord() {
-    const record2 = JSON.parse(JSON.stringify(this.record));
-    record2.createdTime=new Date();
+    const record2 = model.clone(this.record);
+    record2.createdTime = new Date();
     this.recordList.push(record2);
   }
 
   @Watch('recordList')
   onRecordListChanged() {
-    window.localStorage.setItem('recordList', JSON.stringify(this.recordList));
+    model.save(this.recordList);
   }
 
 }
