@@ -5,10 +5,10 @@ import router from './router'
 import store from './store'
 import Layout from '@/components/Layout.vue';
 import icon from '@/components/Icon.vue';
-import togglebar from '@/components/Togglebar.vue';
+import toggleBar from '@/components/ToggleBar.vue';
 
 Vue.config.productionTip = false
-Vue.component('Togglebar',togglebar)
+Vue.component('ToggleBar',toggleBar)
 Vue.component('Layout',Layout)
 Vue.component('Icon',icon)
 new Vue({

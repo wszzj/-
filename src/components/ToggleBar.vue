@@ -19,7 +19,7 @@
 
 
 export default {
-  name: 'togglebar',
+  name: 'toggleBar',
 
 };
 </script>

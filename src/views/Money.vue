@@ -15,10 +15,11 @@ import Toggle from '@/components/money/Toggle.vue';
 import Remark from '@/components/money/Notes.vue';
 import Tags from '@/components/money/Tags.vue';
 import Notes from '@/components/money/Notes.vue';
-import {model} from '@/model';
+import {recordListModel} from '@/models/recordListModel';
+import {tagListModel} from '@/models/tagListModel';
 
 const version = window.localStorage.getItem('version') || '0.0.0';
-const recordList = model.fetch();
+const recordList = recordListModel.fetch();
 
 window.localStorage.setItem('version', '0.0.1');
 
@@ -26,21 +27,21 @@ window.localStorage.setItem('version', '0.0.1');
   components: {Notes, Tags, Toggle, KeyPad}
 })
 export default class Money extends Vue {
-  tags = ['衣', '食', '住', '行'];
+  tags = tagListModel.data;
   recordList = recordList;
   record: RecordItem = {
     tags: [], notes: '', toggle: '-', amount: 0, createdTime: undefined
   };
 
   saveRecord() {
-    const record2 = model.clone(this.record);
+    const record2 = recordListModel.clone(this.record);
     record2.createdTime = new Date();
     this.recordList.push(record2);
   }
 
   @Watch('recordList')
   onRecordListChanged() {
-    model.save(this.recordList);
+    recordListModel.save(this.recordList);
   }
 
 }
