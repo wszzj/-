@@ -2,7 +2,7 @@
   <Layout class-prefix="layout">
     <key-pad :value.sync="record.amount" @submit='saveRecord'/>
     <toggle :value.sync="record.toggle"/>
-    <notes :value.sync="record.notes"/>
+    <notes field-name="备注" placeholder="在这里输入备注" :value.sync="record.notes"/>
     <tags :data-source.sync='tags' :value.sync="record.tags"/>
   </Layout>
 </template>

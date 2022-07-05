@@ -1,8 +1,8 @@
 <template>
   <div>
     <label class="notes">
-      <span class="name">备注</span>
-      <input type="text" v-model="value" placeholder="在此输入备注">
+      <span class="name">{{ fieldName }}</span>
+      <input type="text" v-model="value" :placeholder="this.placeholder">
     </label>
   </div>
 </template>
@@ -15,6 +15,8 @@ import {Component, Prop} from 'vue-property-decorator';
 @Component
 export default class Notes extends Vue {
   @Prop() readonly value!: string;
+  @Prop({required:true}) fieldName!:string
+  @Prop() placeholder?:string
 }
 </script>
 
