@@ -1,9 +1,13 @@
 <template>
   <Layout class-prefix="layout">
+    {{ record }}
     <key-pad :value.sync="record.amount" @submit='saveRecord'/>
     <toggle :value.sync="record.toggle"/>
     <div class="notes">
-      <FormItem field-name="备注" placeholder="在这里输入备注" :value.sync="record.notes"/>
+      <Form-item field-name="备注"
+                 placeholder="在这里输入备注"
+                 @update:value="OnUpdateNotes"
+      />
     </div>
     <tags :data-source.sync='tags' :value.sync="record.tags"/>
   </Layout>
@@ -35,6 +39,10 @@ export default class Money extends Vue {
     tags: [], notes: '', toggle: '-', amount: 0, createdTime: undefined
   };
 
+  OnUpdateNotes(value: string) {
+    this.record.notes = value;
+  }
+
   saveRecord() {
     const record2 = recordListModel.clone(this.record);
     record2.createdTime = new Date();
@@ -45,7 +53,6 @@ export default class Money extends Vue {
   onRecordListChanged() {
     recordListModel.save(this.recordList);
   }
-
 }
 
 </script>
@@ -60,7 +67,8 @@ export default class Money extends Vue {
 <style lang="scss" scoped>
 @import "src/assets/style/reset.scss";
 @import "src/assets/style/helper.scss";
-.notes{
+
+.notes {
   padding: 10px 0;
 }
 
