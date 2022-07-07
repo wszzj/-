@@ -21,10 +21,9 @@ import Remark from '@/components/money/FormItem.vue';
 import Tags from '@/components/money/Tags.vue';
 import FormItem from '@/components/money/FormItem.vue';
 import {recordListModel} from '@/models/recordListModel';
-import {tagListModel} from '@/models/tagListModel';
 
 const version = window.localStorage.getItem('version') || '0.0.0';
-const recordList = recordListModel.fetch();
+const recordList = window.tagList;
 
 window.localStorage.setItem('version', '0.0.1');
 
@@ -32,7 +31,7 @@ window.localStorage.setItem('version', '0.0.1');
   components: {FormItem, Tags, Toggle, KeyPad}
 })
 export default class Money extends Vue {
-  tags = tagListModel.data;
+  tags = window.tagList;
   recordList = recordList;
   record: RecordItem = {
     tags: [], notes: '', toggle: '-', amount: 0, createdTime: undefined

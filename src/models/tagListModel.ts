@@ -1,18 +1,7 @@
 import idCreator from '@/lib/idCreator';
 
 const localStorageName = 'tagList';
-type Tag = {
-  id: string
-  name: string
-}
-type TagListModel = {
-  data: Tag[]
-  fetch: () => Tag[]
-  create: (name: string) => 'success' | 'duplicate'
-  update: (id: string, name: string) => 'success' | 'notFound' | 'duplicate'
-  remove: (id: string) => boolean
-  save: () => void
-}
+
 const tagListModel: TagListModel = {
   data: [],
   fetch() {
@@ -52,7 +41,7 @@ const tagListModel: TagListModel = {
         break;
       }
     }
-    this.data.splice(index, 1);
+    this.data.splice(index,1);
     this.save();
     return true;
   },
