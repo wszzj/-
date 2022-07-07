@@ -1,6 +1,5 @@
 <template>
   <Layout class-prefix="layout">
-    {{ record }}
     <key-pad :value.sync="record.amount" @submit='saveRecord'/>
     <toggle :value.sync="record.toggle"/>
     <div class="notes">
@@ -33,7 +32,7 @@ window.localStorage.setItem('version', '0.0.1');
   components: {FormItem, Tags, Toggle, KeyPad}
 })
 export default class Money extends Vue {
-  tags = tagListModel.data;
+  tags = ['1','2','3'];
   recordList = recordList;
   record: RecordItem = {
     tags: [], notes: '', toggle: '-', amount: 0, createdTime: undefined

@@ -1,15 +1,18 @@
 <template>
   <Layout>
     <div class="navBar">
-      <Icon class="leftIcon" name="left"></Icon>
+      <Icon class="leftIcon" name="left" @click="goBack"></Icon>
       <span class="title">编辑标签</span>
       <span class="rightIcon"></span>
     </div>
     <div class="form-wrapper">
-      <FormItem field-name="标签名" placeholder="请输入标签名"></FormItem>
+      <FormItem :value="tag.name"
+                @update:value="onUpdateInput"
+                field-name="标签名"
+                placeholder="请输入标签名"></FormItem>
     </div>
     <div class="button-wrapper">
-      <Button>删除标签</Button>
+      <Button @click="remove">删除标签</Button>
     </div>
 
   </Layout>
@@ -26,16 +29,33 @@ import Button from '@/components/money/Button.vue';
   components: {Button, FormItem}
 })
 export default class EditLabel extends Vue {
+  tag?: { id: string, name: string } = undefined;
+
   created() {
     const id = this.$route.params.id;
     tagListModel.fetch();
     const tags = tagListModel.data;
     const tag = tags.filter(t => t.id === id)[0];
     if (tag) {
-      console.log(tag);
+      this.tag = tag;
     } else {
       this.$router.replace('/404');
     }
+  }
+
+  onUpdateInput(name: string) {
+    if (this.tag) {
+      tagListModel.update(this.tag.id, name);
+    }
+  }
+
+  remove(id: string) {
+    if (this.tag) {
+      tagListModel.remove(this.tag.id);
+    }
+  }
+  goBack(){
+    this.$router.back()
   }
 }
 </script>
@@ -71,7 +91,8 @@ export default class EditLabel extends Vue {
   margin-top: 8px;
 
 }
-.button-wrapper{
+
+.button-wrapper {
   text-align: center;
   padding: 16px;
   margin-top: 44-16px;
