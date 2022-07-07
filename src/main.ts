@@ -6,8 +6,7 @@ import store from './store';
 import Layout from '@/components/Layout.vue';
 import icon from '@/components/Icon.vue';
 import toggleBar from '@/components/ToggleBar.vue';
-import {tagListModel} from '@/models/tagListModel';
-import {recordListModel} from '@/models/recordListModel';
+
 
 Vue.config.productionTip = false;
 Vue.component('ToggleBar', toggleBar);
