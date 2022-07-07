@@ -20,7 +20,6 @@ import Toggle from '@/components/money/Toggle.vue';
 import Remark from '@/components/money/FormItem.vue';
 import Tags from '@/components/money/Tags.vue';
 import FormItem from '@/components/money/FormItem.vue';
-import {recordListModel} from '@/models/recordListModel';
 
 const version = window.localStorage.getItem('version') || '0.0.0';
 const recordList = window.tagList;
@@ -42,13 +41,10 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    recordListModel.create(this.record)
+    window.createRecord(this.record)
   }
 
-  @Watch('recordList')
-  onRecordListChanged() {
-    recordListModel.save();
-  }
+
 }
 
 </script>

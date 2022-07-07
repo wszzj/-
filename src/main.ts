@@ -7,11 +7,20 @@ import Layout from '@/components/Layout.vue';
 import icon from '@/components/Icon.vue';
 import toggleBar from '@/components/ToggleBar.vue';
 import {tagListModel} from '@/models/tagListModel';
+import {recordListModel} from '@/models/recordListModel';
 
 Vue.config.productionTip = false;
 Vue.component('ToggleBar', toggleBar);
 Vue.component('Layout', Layout);
 Vue.component('Icon', icon);
+
+window.recordList=recordListModel.fetch();
+window.createRecord=(record:RecordItem)=>{
+  recordListModel.create(record)
+}
+window.
+
+
 
 window.tagList = tagListModel.fetch();
 window.findTag=(id:string)=>{
