@@ -20,9 +20,10 @@ import Toggle from '@/components/money/Toggle.vue';
 import Remark from '@/components/money/FormItem.vue';
 import Tags from '@/components/money/Tags.vue';
 import FormItem from '@/components/money/FormItem.vue';
+import store from '@/store/index2';
 
 const version = window.localStorage.getItem('version') || '0.0.0';
-const recordList = window.tagList;
+
 
 window.localStorage.setItem('version', '0.0.1');
 
@@ -30,8 +31,8 @@ window.localStorage.setItem('version', '0.0.1');
   components: {FormItem, Tags, Toggle, KeyPad}
 })
 export default class Money extends Vue {
-  tags = window.tagList;
-  recordList = recordList;
+  tags = store.tagList;
+  recordList = store.recordList;
   record: RecordItem = {
     tags: [], notes: '', toggle: '-', amount: 0, createdTime: undefined
   };
@@ -41,7 +42,7 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    window.createRecord(this.record)
+    store.createRecord(this.record)
   }
 
 
