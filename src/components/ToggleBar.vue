@@ -30,7 +30,6 @@ export default {
 nav {
   @extend %outerShadow;
   display: flex;
-
   flex-direction: row;
   font-size: 12px;
 

@@ -3,13 +3,14 @@
     <div class="content" :class="'classPrefix' &&`${classPrefix}-content`">
       <slot></slot>
     </div>
+    <toggle-bar/>
   </div>
 </template>
 
 <script lang="ts">
 export default {
   name: 'Layout',
-  props:['classPrefix'],
+  props: ['classPrefix'],
 };
 </script>
 
