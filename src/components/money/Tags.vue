@@ -1,10 +1,10 @@
 <template>
   <div class="tags">
     <div>
-      <button @click="create">新增标签</button>
+      <button @click="createTag">新增标签</button>
     </div>
     <ol class="tag">
-      <li v-for="tag in tagList" :key="tag.id"
+      <li v-for="tag in tags" :key="tag.id"
           :class="{selected:selectTags.indexOf(tag)>=0}"
           @click="toggleTags(tag)">{{ tag.name }}
       </li>
@@ -14,14 +14,21 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import TagHelper from '@/mixins/TagHelper';
+import {mixins} from 'vue-class-component';
 import {Component} from 'vue-property-decorator';
-import store from '@/store/index2';
 
-@Component
-export default class Tags extends Vue {
-  tagList = store.fetchTag();
+@Component({
+})
+export default class Tags extends mixins(TagHelper) {
+  get tags(){
+    return this.$store.state.tagList;
+  }
   selectTags: string[] = [];
+
+  created() {
+    this.$store.commit('fetchTag');
+  }
 
   toggleTags(tag: string) {
     const index = this.selectTags.indexOf(tag);
@@ -33,14 +40,6 @@ export default class Tags extends Vue {
     this.$emit('update:value', this.selectTags);
   }
 
-  create() {
-    const name = window.prompt('请输入标签名');
-    if (!name) {
-      return window.alert('标签名不能为空');
-    } else {
-      store.createTag(name);
-    }
-  }
 }
 </script>
 

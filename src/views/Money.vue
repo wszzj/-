@@ -1,6 +1,5 @@
 <template>
   <Layout class-prefix="layout">
-    {{ record }}
     <key-pad :value.sync="record.amount" @submit='saveRecord'/>
     <toggle :value.sync="record.toggle"/>
     <div class="notes">
@@ -21,7 +20,7 @@ import Toggle from '@/components/money/Toggle.vue';
 import Remark from '@/components/money/FormItem.vue';
 import Tags from '@/components/money/Tags.vue';
 import FormItem from '@/components/money/FormItem.vue';
-import store from '@/store/index2';
+
 
 const version = window.localStorage.getItem('version') || '0.0.0';
 
@@ -32,7 +31,7 @@ window.localStorage.setItem('version', '0.0.1');
   components: {FormItem, Tags, Toggle, KeyPad},
   computed: {
     recordList() {
-      return store.recordList;
+      return this.$store.state.recordList;
     }
   }
 })
@@ -46,7 +45,7 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    store.createRecord(this.record);
+    this.$store.commit("createRecord");
   }
 
 

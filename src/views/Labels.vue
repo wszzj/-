@@ -2,38 +2,38 @@
   <Layout>
     <div class="tags">
       <router-link class="tag"
-                   v-for="tag in tags" :key="tag.id"
+                   v-for="tag in tagList" :key="tag.id"
                    :to="`/labels/edit/${tag.id}`">
         <span>{{ tag.name }}</span>
         <Icon name="right"></Icon>
       </router-link>
     </div>
-    <div class="addTag-wrapper">
-      <Button class='addTag' @click="addTag">添加标签</Button>
+    <div class="createTag-wrapper">
+      <Button class='createTag' @click="createTag">添加标签</Button>
     </div>
   </Layout>
 </template>
 
 <script lang="ts">
 
-import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import Button from '@/components/money/Button.vue';
-import store from '@/store/index2';
+import {mixins} from 'vue-class-component';
+import TagHelper from '@/mixins/TagHelper';
+
 
 @Component({
-  components: {Button}
+  components: {Button},
 })
 
-export default class Labels extends Vue {
-  tags = store.tagList;
-
-  addTag() {
-    const name = window.prompt('请输入标签');
-    if (name) {
-      store.createTag(name);
-    }
+export default class Labels extends mixins(TagHelper) {
+  get tagList(){
+    return this.$store.state.tagList
   }
+  beforeCreate(){
+    this.$store.commit('fetchTag')
+  }
+
 }
 </script>
 
@@ -59,7 +59,7 @@ export default class Labels extends Vue {
   }
 }
 
-.addTag {
+.createTag {
   font-size: 16px;
   padding: 7px 16px;
   background: #767676;
