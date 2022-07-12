@@ -3,7 +3,7 @@ type RecordItem = {
   notes: string
   toggle: string
   amount: number
-  createdTime: Date | undefined
+  createdTime?: string
 }
 type Tag = {
   id: string
