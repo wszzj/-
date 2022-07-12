@@ -1,6 +1,5 @@
 <template>
   <Layout class-prefix="layout">
-    {{ recordList.amount }}
     <key-pad :value.sync="record.amount" @submit='saveRecord'/>
     <tabs :data-source="typeList" :value.sync="record.toggle"/>
     <div class="notes">
@@ -24,14 +23,11 @@ import typeList from '@/constants/typeList';
 
 @Component({
   components: {FormItem, Tags, KeyPad, Tabs},
-  computed: {
-    recordList() {
-      return this.$store.state.recordList;
-    }
-  }
 })
 export default class Money extends Vue {
-
+  get recordList(){
+    return this.$store.state.recordList;
+  }
 
   typeList = typeList;
   record: RecordItem = {
@@ -45,7 +41,7 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    this.$store.commit('createRecord');
+    this.$store.commit('createRecord',this.record);
   }
 
 

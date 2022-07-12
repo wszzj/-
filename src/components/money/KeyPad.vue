@@ -1,7 +1,7 @@
 <template>
   <div class="keyPad">
     <div class="output">{{ output || '&nbsp;' }}</div>
-    <div class="buttons clearFix">
+    <div class="buttons">
       <button @click="inputContent">1</button>
       <button @click="inputContent">2</button>
       <button @click="inputContent">3</button>
@@ -26,7 +26,7 @@ import {Component, Prop} from 'vue-property-decorator';
 
 @Component
 export default class KeyPad extends Vue {
-  @Prop() readonly value!: number;
+  @Prop(Number) readonly value!: number;
   output = this.value.toString();
 
   inputContent(event: MouseEvent) {

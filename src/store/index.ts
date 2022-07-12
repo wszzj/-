@@ -4,11 +4,7 @@ import clone from '@/lib/clone';
 import idCreator from '@/lib/idCreator';
 
 Vue.use(Vuex);
-type RootState = {
-  recordList: RecordItem[],
-  tagList: Tag[],
-  currentTag?: Tag,
-}
+
 const store = new Vuex.Store({
   state: {
     recordList: [],
@@ -17,9 +13,9 @@ const store = new Vuex.Store({
   } as RootState,
   mutations: {
     fetchRecord(state) {
-      state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]') as RecordItem[]
+      state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]') as RecordItem[];
     },
-    createRecord(state, record) {
+    createRecord(state, record: RecordItem) {
       const record2: RecordItem = clone(record);
       record2.createdTime = new Date();
       state.recordList.push(record2);
@@ -55,13 +51,13 @@ const store = new Vuex.Store({
       state.tagList.splice(index, 1);
       store.commit('saveTag');
     },
-    updateTag(state,payload:{id: string, name: string}) {
-      const {id,name}=payload
+    updateTag(state, payload: { id: string, name: string }) {
+      const {id, name} = payload;
       const idList = state.tagList.map(item => item.id);
       if (idList.indexOf(id) >= 0) {
         const names = state.tagList.map(item => item.name);
         if (names.indexOf(name) >= 0) {
-          window.alert('标签名重复')
+          window.alert('标签名重复');
         } else {
           const tag = state.tagList.filter(item => item.id === id)[0];
           tag.name = name;
@@ -73,8 +69,6 @@ const store = new Vuex.Store({
       window.localStorage.setItem('tagList', JSON.stringify(state.tagList));
     },
   },
-  actions: {},
-  modules: {}
 });
 
 export default store;
