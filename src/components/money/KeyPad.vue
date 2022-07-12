@@ -30,7 +30,7 @@ export default class KeyPad extends Vue {
   output = this.value.toString();
 
   inputContent(event: MouseEvent) {
-    const button = (event.target as HTMLButtonElement);
+    const button = event.target as HTMLButtonElement;
     const input = button.textContent!;
     if (this.output.length === 16) {return;}
     if (this.output === '0') {
@@ -60,9 +60,8 @@ export default class KeyPad extends Vue {
   }
 
   ok() {
-    const number=parseFloat(this.output)
-    this.$emit('update:value', number);
-    this.$emit('submit', number);
+    this.$emit('update:value', this.output);
+    this.$emit('submit', this.output);
     this.output = '0';
   }
 }

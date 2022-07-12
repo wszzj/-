@@ -1,12 +1,12 @@
 <template>
   <Layout class-prefix="layout">
-    {{ recordList.amount }}
     <key-pad :value.sync="record.amount" @submit='saveRecord'/>
-    <tabs :data-source="typeList" :value.sync="record.toggle"/>
+    <toggle :value.sync="record.toggle"/>
     <div class="notes">
       <Form-item field-name="备注"
                  placeholder="在这里输入备注"
-                 @update:value="OnUpdateNotes"/>
+                 @update:value="OnUpdateNotes"
+      />
     </div>
     <tags :value.sync="record.tags"/>
   </Layout>
@@ -14,16 +14,21 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
+import {Component, Watch} from 'vue-property-decorator';
 import KeyPad from '@/components/money/KeyPad.vue';
+import Toggle from '@/components/money/Toggle.vue';
+import Remark from '@/components/money/FormItem.vue';
 import Tags from '@/components/money/Tags.vue';
 import FormItem from '@/components/money/FormItem.vue';
-import Tabs from '@/components/Tabs.vue';
-import typeList from '@/constants/typeList';
 
+
+const version = window.localStorage.getItem('version') || '0.0.0';
+
+
+window.localStorage.setItem('version', '0.0.1');
 
 @Component({
-  components: {FormItem, Tags, KeyPad, Tabs},
+  components: {FormItem, Tags, Toggle, KeyPad},
   computed: {
     recordList() {
       return this.$store.state.recordList;
@@ -31,21 +36,16 @@ import typeList from '@/constants/typeList';
   }
 })
 export default class Money extends Vue {
-
-
-  typeList = typeList;
   record: RecordItem = {
     tags: [], notes: '', toggle: '-', amount: 0, createdTime: undefined
   };
-  created(){
-    this.$store.commit('fetchRecord')
-  }
+
   OnUpdateNotes(value: string) {
     this.record.notes = value;
   }
 
   saveRecord() {
-    this.$store.commit('createRecord');
+    this.$store.commit("createRecord");
   }
 
 
