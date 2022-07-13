@@ -3,7 +3,7 @@
     <tabs class-prefix="type" :data-source="typeList" :value.sync="type"/>
     <tabs class-prefix="interval" :data-source="intervalList" :value.sync="interval"/>
     <ol>
-      <li v-for="(group,index) in result" :key="index">
+      <li v-for="(group,index) in groupList" :key="index">
         <h3 class="title">{{ beautify(group.title) }}</h3>
         <ol>
           <li v-for="item in group.items" :key="item.id" class="record">
@@ -25,6 +25,7 @@ import Tabs from '@/components/Tabs.vue';
 import typeList from '@/constants/typeList';
 import intervalList from '@/constants/intervalList';
 import dayjs from 'dayjs';
+import clone from '@/lib/clone';
 
 @Component({
   components: {Tabs,}
@@ -32,8 +33,8 @@ import dayjs from 'dayjs';
 
 export default class Statistics extends Vue {
   tagString(tags: Tag[]) {
-    return tags;
-
+    if (tags === []) {return '无';}
+    return tags.map(i => i.name).toString();
   }
 
   beautify(string: string) {
@@ -45,10 +46,10 @@ export default class Statistics extends Vue {
       return '昨天';
     } else if (day.isSame(now.subtract(2, 'day'), 'day')) {
       return '前天';
-    } else if(day.isSame(now,'year')){
-      return day.format('M月D日')
-    }else{
-      return day.format('YYYY年M月D日')
+    } else if (day.isSame(now, 'year')) {
+      return day.format('M月D日');
+    } else {
+      return day.format('YYYY年M月D日');
     }
 
 
@@ -58,16 +59,29 @@ export default class Statistics extends Vue {
     return (this.$store.state as RootState).recordList;
   }
 
-  get result() {
+  get groupList() {
     const {recordList} = this;
-    type hashTableValue = { title: string, items: RecordList[] }
-    const hashTable: { [key: string]: hashTableValue } = {};
-    for (let i = 0; i < recordList.length; i++) {
-      const [date, time] = recordList[i].createdTime!.split('T');
-      hashTable[date] = hashTable[date] || {title: date, items: []};
-      hashTable[date].items.push(recordList[i]);
+    if (recordList.length === 0) {return [];}
+    const newList = clone(recordList).sort((a, b) =>
+      dayjs(b.createdTime).valueOf() - dayjs(a.createdTime).valueOf()
+    );
+    const result = [{
+      title: dayjs(newList[0].createdTime).format('YYYY-MM-DD'),
+      items: [newList[0]]
+    }];
+    for (let i = 0; i < newList.length; i++) {
+      const current = newList[i];
+      const last = result[result.length - 1];
+      if (dayjs(current.createdTime).isSame(dayjs(last.title), 'day')) {
+        last.items.push(current);
+      } else {
+        result.push({
+          title: dayjs(newList[i].createdTime).format('YYYY-MM-DD'),
+          items: [current]
+        });
+      }
     }
-    return hashTable;
+    return result;
   }
 
   beforeCreate() {
