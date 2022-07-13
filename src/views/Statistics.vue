@@ -2,18 +2,18 @@
   <Layout>
     <tabs class-prefix="type" :data-source="typeList" :value.sync="type"/>
     <tabs class-prefix="interval" :data-source="intervalList" :value.sync="interval"/>
-    <div>
-      <ol>
-        <li v-for="(group,index) in result" :key="index">
-          <h3>{{ group.title }}</h3>
-          <ol>
-            <li v-for="item in group.items" :key="item.id">
-              {{ item.amount }}{{item.createdTime}}
-            </li>
-          </ol>
-        </li>
-      </ol>
-    </div>
+    <ol>
+      <li v-for="(group,index) in result" :key="index">
+        <h3 class="title">{{ group.title }}</h3>
+        <ol>
+          <li v-for="item in group.items" :key="item.id" class="record">
+            <span>{{ tagString(item.tags) }}</span>
+            <span class="remark">{{ item.notes }}</span>
+            <span>¥{{ item.amount }}</span>
+          </li>
+        </ol>
+      </li>
+    </ol>
   </Layout>
 </template>
 
@@ -30,6 +30,10 @@ import intervalList from '@/constants/intervalList';
 })
 
 export default class Statistics extends Vue {
+  tagString(tags: Tag[]) {
+    return tags;
+  }
+
   get recordList() {
     return (this.$store.state as RootState).recordList;
   }
@@ -73,4 +77,36 @@ export default class Statistics extends Vue {
 ::v-deep .interval-tabs-item {
   height: 48px;
 }
+
+%item {
+  padding: 8px 16px;
+  line-height: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+}
+
+.title {
+  @extend %item
+
+}
+
+li .record {
+  @extend %item;
+  background: white;
+
+  .remark {
+    margin-right: auto;
+    margin-left: 16px;
+    padding-right: 16px;
+    color: #999999;
+
+    //overflow: hidden;
+    //white-space: nowrap;
+    //text-overflow: ellipsis;
+
+  }
+}
+
+
 </style>
