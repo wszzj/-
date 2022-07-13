@@ -1,10 +1,12 @@
 <template>
   <Layout>
-    <tabs class-prefix="type" :data-source="typeList" :value.sync="type"/>
+    <tabs class-prefix="type" :data-source="typeList" :value.sync="toggle"/>
     <tabs class-prefix="interval" :data-source="intervalList" :value.sync="interval"/>
     <ol>
       <li v-for="(group,index) in groupList" :key="index">
-        <h3 class="title">{{ beautify(group.title) }}</h3>
+        <h3 class="title">{{ beautify(group.title) }}
+          <span>¥{{ group.total }}</span>
+        </h3>
         <ol>
           <li v-for="item in group.items" :key="item.id" class="record">
             <span>{{ tagString(item.tags) }}</span>
@@ -33,7 +35,7 @@ import clone from '@/lib/clone';
 
 export default class Statistics extends Vue {
   tagString(tags: Tag[]) {
-    if (tags === []) {return '无';}
+    if (tags.length === 0) {return '无';}
     return tags.map(i => i.name).toString();
   }
 
@@ -62,14 +64,16 @@ export default class Statistics extends Vue {
   get groupList() {
     const {recordList} = this;
     if (recordList.length === 0) {return [];}
-    const newList = clone(recordList).sort((a, b) =>
-      dayjs(b.createdTime).valueOf() - dayjs(a.createdTime).valueOf()
-    );
+    const newList = clone(recordList)
+      .filter(i => i.toggle === this.toggle)
+      .sort((a, b) => dayjs(b.createdTime).valueOf() - dayjs(a.createdTime).valueOf()
+      );
     const result = [{
       title: dayjs(newList[0].createdTime).format('YYYY-MM-DD'),
+      total: 0,
       items: [newList[0]]
     }];
-    for (let i = 0; i < newList.length; i++) {
+    for (let i = 1; i < newList.length; i++) {
       const current = newList[i];
       const last = result[result.length - 1];
       if (dayjs(current.createdTime).isSame(dayjs(last.title), 'day')) {
@@ -77,9 +81,11 @@ export default class Statistics extends Vue {
       } else {
         result.push({
           title: dayjs(newList[i].createdTime).format('YYYY-MM-DD'),
+          total: 0,
           items: [current]
         });
       }
+      result.map(group => {group.total = group.items.reduce((sum, item) => sum + item.amount, 0);});
     }
     return result;
   }
@@ -88,7 +94,7 @@ export default class Statistics extends Vue {
     this.$store.commit('fetchRecord');
   }
 
-  type = '-';
+  toggle = '-';
   interval = 'day';
   intervalList = intervalList;
   typeList = typeList;
@@ -131,14 +137,12 @@ li .record {
 
   .remark {
     margin-right: auto;
-    margin-left: 16px;
+    margin-left: 32px;
     padding-right: 16px;
     color: #999999;
-
-    //overflow: hidden;
-    //white-space: nowrap;
-    //text-overflow: ellipsis;
-
+    overflow: scroll;
+    white-space: nowrap;
+    transform: translateX(-16px);
   }
 }
 
