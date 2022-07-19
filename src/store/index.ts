@@ -20,6 +20,7 @@ const store = new Vuex.Store({
       record2.createdTime = new Date().toISOString();
       state.recordList.push(record2);
       store.commit('saveRecord');
+      window.alert('已记录')
     },
     saveRecord(state) {
       window.localStorage.setItem('recordList', JSON.stringify(state.recordList));

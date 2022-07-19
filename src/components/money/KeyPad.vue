@@ -60,6 +60,7 @@ export default class KeyPad extends Vue {
   }
 
   ok() {
+    if(this.output==='0'){return window.alert('不能记录0金额')}
     const number=parseFloat(this.output)
     this.$emit('update:value', number);
     this.$emit('submit', number);

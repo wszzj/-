@@ -68,9 +68,9 @@ export default class Statistics extends Vue {
       .filter(i => i.toggle === this.toggle)
       .sort((a, b) => dayjs(b.createdTime).valueOf() - dayjs(a.createdTime).valueOf()
       );
-    const result = [{
+    type resultList = [{ title: string, total?: number, items: RecordItem[] }]
+    const result: resultList = [{
       title: dayjs(newList[0].createdTime).format('YYYY-MM-DD'),
-      total: 0,
       items: [newList[0]]
     }];
     for (let i = 1; i < newList.length; i++) {
@@ -81,12 +81,11 @@ export default class Statistics extends Vue {
       } else {
         result.push({
           title: dayjs(newList[i].createdTime).format('YYYY-MM-DD'),
-          total: 0,
-          items: [current]
-        });
+          items: [current]});
       }
-      result.map(group => {group.total = group.items.reduce((sum, item) => sum + item.amount, 0);});
     }
+    result.map(
+      group => {group.total = group.items.reduce((sum, item) => sum + item.amount, 0);});
     return result;
   }
 
