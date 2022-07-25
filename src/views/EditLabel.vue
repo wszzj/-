@@ -1,5 +1,5 @@
 <template>
-  <Layout>
+  <Layout class-prefix="editLabels">
     <div class="navBar">
       <Icon class="leftIcon" name="left" @click="goBack"></Icon>
       <span class="title">编辑标签</span>

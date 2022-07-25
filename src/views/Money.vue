@@ -1,5 +1,5 @@
 <template>
-  <Layout class-prefix="layout">
+  <Layout class-prefix="money">
     <key-pad :value.sync="record.amount" @submit='saveRecord'/>
     <tabs :data-source="typeList" :value.sync="record.toggle"/>
     <div class="notes">
@@ -54,7 +54,7 @@ export default class Money extends Vue {
 
 </script>
 <style>
-.layout-content {
+.money-content {
   display: flex;
   flex-direction: column-reverse;
 }

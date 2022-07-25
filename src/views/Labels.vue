@@ -1,5 +1,5 @@
 <template>
-  <Layout>
+  <Layout class-prefix="labels">
     <div class="tags">
       <router-link class="tag"
                    v-for="tag in tagList" :key="tag.id"
@@ -38,6 +38,7 @@ export default class Labels extends mixins(TagHelper) {
 </script>
 
 <style lang="scss" scoped>
+
 .tags {
   background: white;
   font-size: 16px;

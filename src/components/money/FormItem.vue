@@ -28,7 +28,10 @@ export default class FormItem extends Vue {
 </script>
 
 <style lang="scss" scoped>
+
+
 .Form-wrapper {
+
   font-size: 16px;
   display: flex;
   padding-left: 16px;
