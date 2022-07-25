@@ -1,8 +1,8 @@
 <template>
   <Layout>
     <tabs class-prefix="type" :data-source="typeList" :value.sync="toggle"/>
-    <tabs class-prefix="interval" :data-source="intervalList" :value.sync="interval"/>
-    <ol>
+<!--    <tabs class-prefix="interval" :data-source="intervalList" :value.sync="interval"/>-->
+    <ol v-if="groupList.length>0">
       <li v-for="(group,index) in groupList" :key="index">
         <h3 class="title">{{ beautify(group.title) }}
           <span>¥{{ group.total }}</span>
@@ -16,6 +16,9 @@
         </ol>
       </li>
     </ol>
+    <div v-else class="noResult">
+      目前没有相关记录
+    </div>
   </Layout>
 </template>
 
@@ -36,7 +39,7 @@ import clone from '@/lib/clone';
 export default class Statistics extends Vue {
   tagString(tags: Tag[]) {
     if (tags.length === 0) {return '无';}
-    return tags.map(i => i.name).toString();
+    return tags.map(i => i.name).join('，');
   }
 
   beautify(string: string) {
@@ -63,11 +66,11 @@ export default class Statistics extends Vue {
 
   get groupList() {
     const {recordList} = this;
-    if (recordList.length === 0) {return [];}
     const newList = clone(recordList)
       .filter(i => i.toggle === this.toggle)
       .sort((a, b) => dayjs(b.createdTime).valueOf() - dayjs(a.createdTime).valueOf()
       );
+    if (newList.length === 0) {return [];}
     type resultList = [{ title: string, total?: number, items: RecordItem[] }]
     const result: resultList = [{
       title: dayjs(newList[0].createdTime).format('YYYY-MM-DD'),
@@ -101,6 +104,10 @@ export default class Statistics extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.noResult{
+  padding-top: 16px;
+  text-align: center;
+}
 ::v-deep .type-tabs-item {
   background: white;
 

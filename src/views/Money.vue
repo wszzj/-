@@ -5,7 +5,7 @@
     <div class="notes">
       <Form-item field-name="备注"
                  placeholder="在这里输入备注"
-                 @update:value="OnUpdateNotes"/>
+                 :value.sync="record.notes"/>
     </div>
     <tags :value.sync="record.tags"/>
   </Layout>
@@ -25,7 +25,7 @@ import typeList from '@/constants/typeList';
   components: {FormItem, Tags, KeyPad, Tabs},
 })
 export default class Money extends Vue {
-  get recordList(){
+  get recordList() {
     return this.$store.state.recordList;
   }
 
@@ -33,15 +33,20 @@ export default class Money extends Vue {
   record: RecordItem = {
     tags: [], notes: '', toggle: '-', amount: 0, createdTime: undefined
   };
-  created(){
-    this.$store.commit('fetchRecord')
-  }
-  OnUpdateNotes(value: string) {
-    this.record.notes = value;
+
+  created() {
+    this.$store.commit('fetchRecord');
   }
 
   saveRecord() {
-    this.$store.commit('createRecord',this.record);
+    if (!this.record.tags || this.record.tags.length === 0) {
+      return window.alert('请选择至少一个标签');
+    }
+    this.$store.commit('createRecord', this.record);
+    if (this.$store.state.createdRecordError === null) {
+      window.alert('已记录');
+      this.record.notes = '';
+    }
   }
 
 
