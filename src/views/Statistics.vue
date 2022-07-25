@@ -88,7 +88,7 @@ export default class Statistics extends Vue {
       }
     }
     result.map(
-      group => {group.total = group.items.reduce((sum, item) => sum + item.amount, 0);});
+      group => {group.total = group.items.reduce((sum, item) => Math.round(sum + item.amount), 0);});
     return result;
   }
 

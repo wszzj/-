@@ -58,6 +58,7 @@ const store = new Vuex.Store({
       }
       state.tagList.splice(index, 1);
       store.commit('saveTag');
+      window.alert('删除成功')
     },
     updateTag(state, payload: { id: string, name: string }) {
       const {id, name} = payload;
